@@ -7,6 +7,7 @@ function callback(data) {
     
     sortMoviesByTitle(moviesObj);
     editCategoryName(moviesObj);
+    displayMoviesAll(moviesObj);
    
     
     
@@ -43,7 +44,7 @@ function ajaxReq(method, url) { //.open-től kapja a metódust és url-t
 
 ajaxReq('GET', '../json/movies.json');
 
-// ------------------------------------------------------------------------------------------------------------
+// ------------------------------ 2. Sort by Title ---------------------------------------------------------
 
 function sortMoviesByTitle(data) {
     data.sort(function (a, b) {
@@ -59,10 +60,10 @@ function sortMoviesByTitle(data) {
         return 0;
     });
     console.log(data);
-    
+
     //characterLister(data);  //userDatas továbbadása characterLister-nek
 }
-
+/*
 //nem teljesen jó még
 function editCategoryName(data) {
     for (let k in data) {
@@ -71,5 +72,58 @@ function editCategoryName(data) {
         }
     }
     console.log(data);
-    
+
+}*/
+// ---------------------------- 3. Capitalize category names -------------------------------
+function editCategoryName(data) {
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+for (let k in data) {
+    for (let key in data[k].categories){
+        data[k].categories[key] = data[k].categories[key].capitalize();
+    }
+}
+console.log(data);
+
+}
+
+// ---------------------- 4. Display Movies -------------------------------------
+
+function displayMoviesAll(data) {
+    const movieDivOpen = `<div class="movieDiv">`;
+    const divClose = "</div>";
+    let displayAll = "";
+    let title="";
+    let picture ='';
+    for (let k in data) {
+        picture = `<img src="./img/covers/${formatStringToFilename(data[k].title)}.jpg"></img>`;
+        title = `<p>Cím<br><span class="title">${data[k].title}<span></p>`
+        displayAll += `${movieDivOpen}${title}${picture}${divClose}`;
+    }
+    document.getElementsByClassName('mainContainer')[0].innerHTML = displayAll;
+}
+
+
+
+
+// ----------------------- Get filename from name ----------------------
+function formatStringToFilename(str) {
+    const hunChars = {
+        á: 'a',
+        é: 'e',
+        í: 'i',
+        ó: 'o',
+        ú: 'u',
+        ö: 'o',
+        ő: 'o',
+        ü: 'u',
+        ű: 'u'
+    }
+    str = str.toLocaleLowerCase()
+            .replace(/[\?:;,\.\+\*\&\']/g, '') //removing special characters
+            .replace(/[áéíóúöőüű]/g, char => hunChars[char])  //function (char) {hunChars[char]}
+            .replace(/[ -]+/g, '-');
+
+    return str;
 }

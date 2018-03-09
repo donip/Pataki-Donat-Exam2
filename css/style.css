@@ -1,0 +1,45 @@
+body {
+    background: lightblue;
+    margin: 0;
+}
+.mainContainer {
+    background: white;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    width: 1500px;
+}
+
+
+.mainContainer::after{  /*törli a floatot container után, így nem esik össze a container*/
+    content: "";
+    clear: left;
+    display: table;
+}
+
+.movieDiv {
+    border-bottom: 1px solid blue;
+    box-sizing: border-box; /*padding és border nem tolja ki a width-et pluszban*/
+    float: left;
+    width: 33%;
+    padding: 10px 10px 40px 10px;
+}
+
+.movieDiv:nth-child(3n+4) {
+    clear: both;
+}
+
+.movieDiv>p{
+    display: block;
+}
+img {
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px darkslategrey;
+}
+.movieDiv>p {
+margin-top: 30px;
+}
+span.title {
+    font-size: 22px;
+    font-weight: bold;
+}
