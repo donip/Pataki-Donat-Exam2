@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="searchBar">
+    <div class="searchBar" id="top">
         <select name="dataTypes" id="userSelect">
             <option value="title"> Cím </option>
             <option value="directors">Rendező</option>
@@ -20,11 +20,22 @@
         </select>
         <input type="text" name="inputBox" id="inputBox">
         <input type="button" id="search" value="Keresés">
-    <p id="sumLength"></p>
+        <a href="#statistics">Statisztika</a>
+    
     </div>
+    
 <div class="mainContainer">
 
 </div>
+<a href="#top">Elejére</a>
+<div id="statistics" class="statistics">
+        <span id="sumLength"></span> 
+        <span id="avgLength"></span> 
+        <hr>
+        <div id="category"></div>
+        <div id="actorList"></div>
+    </div>
+
     <script src="./js/movies.js"></script>
 </body>
 

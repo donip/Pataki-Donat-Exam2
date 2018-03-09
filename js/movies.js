@@ -14,6 +14,8 @@ function callback(data) {
     });
 
     sumMoviesLength(moviesObj);
+    countMoviesOfActors(moviesObj);
+    countCategories(moviesObj);
 
 
 }
@@ -210,7 +212,63 @@ function searchForMovie(data) {
 function sumMoviesLength(data) {
     let sum = 0;
 for (let k in data) {
-    sum += data[k].timeInMinutes;
+    sum += parseInt(data[k].timeInMinutes);
 }
-document.getElementById('sumLength').innerHTML = sum;
+    sum /= 60;
+    let avg = sum / data.length;
+    sum = sum.toFixed(2);
+    avg = avg.toFixed(2);
+
+document.getElementById('sumLength').innerHTML = `Filmek hossza összesen: <strong>${sum}</strong> óra`;
+document.getElementById('avgLength').innerHTML = `Filmek hossza átlagosan: <strong>${avg}</strong> óra`;
+
+
+}
+
+//---------------------------
+
+function countMoviesOfActors(data) {
+    let movieMap = new Map()
+    for (let i = 0; i < data.length; i++) {
+        for  (let k in data[i].cast) {
+        if (movieMap.has(data[i].cast[k].name)){   
+            let currentValue = movieMap.get(data[i].cast[k].name);
+            movieMap.set(data[i].cast[k].name, currentValue + 1);
+
+        } else {     
+            movieMap.set(data[i].cast[k].name, 1);
+
+        }
+    }
+    }
+    for (let i of movieMap) {
+                document.getElementById('actorList').innerHTML +=
+                (`<p class="actorListPara">${i[0]}: ${i[1]} film <p>`);
+                
+            }
+   
+}
+
+//------------------
+
+function countCategories(data) {
+    let categoryMap = new Map()
+    for (let i = 0; i < data.length; i++) {
+        for  (let k = 0; k < data[i].categories.length; k++) {
+        if (categoryMap.has(data[i].categories[k])){   
+            let currentValue = categoryMap.get(data[i].categories[k]);
+            categoryMap.set(data[i].categories[k], currentValue + 1);
+
+        } else {     
+            categoryMap.set(data[i].categories[k], 1);
+
+        }
+    }
+    }
+    for (let i of categoryMap) {
+                document.getElementById('category').innerHTML +=
+                (`<p>${i[0]}: ${i[1]} db <p>`);
+                
+            }
+   
 }

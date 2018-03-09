@@ -49,11 +49,17 @@ input[type=text], select {
 
 .outerDiv {
     margin-bottom: 20px;
+    transition: 0.5s;
 }
+.outerDiv:hover {
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px teal;
+}
+
 
 .movieDiv {
     border-top: 1px solid teal;
-    box-sizing: border-box; /*padding és border nem tolja ki a width-et pluszban*/
+    box-sizing: border-box;
     float: left;
     width: 33%;
     padding: 10px 10px 40px 10px;
@@ -69,7 +75,11 @@ input[type=text], select {
 img {
     border-radius: 5px;
     box-shadow: 2px 2px 10px darkslategrey;
+    
 }
+
+   
+
 .actorImg {
     border-radius: 50%;
     box-shadow: 2px 2px 10px darkslategrey;
@@ -97,4 +107,36 @@ span.title {
     font-weight: bold;
 }
 
+.statistics {
+    padding: 20px;
+}
+.statistics>span {
+    color: white;
+    margin-right: 25px;
+}
 
+#actorList>p {
+    float: left;
+    padding: 0 5px;
+}
+#actorList>p:nth-child(odd) {
+    color: yellow;
+}
+#actorList::after {
+    content: "";
+    clear: left;
+    display: table;
+}
+
+a {
+    display: inline-block;
+    color: teal;
+    cursor: pointer;
+    background: white;
+    border-radius: 3px;
+    margin: 50px;
+    padding: 10px;
+    text-decoration: none;
+    width: 100px;
+    text-align: center;
+}
