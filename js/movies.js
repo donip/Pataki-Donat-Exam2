@@ -12,6 +12,11 @@ function callback(data) {
     document.getElementById('search').addEventListener('click', function () {
         searchForMovie(moviesObj);
     });
+    document.getElementById('delete').addEventListener('click', function () {
+        deleteMovies(moviesObj);
+    });
+
+
 
     sumMoviesLength(moviesObj);
     countMoviesOfActors(moviesObj);
@@ -118,7 +123,7 @@ function displayMoviesAll(data) {
         //cast = pushCategories(data,k,'cast', 'name');
 
         displayAll += `${movieDivOpen}<div class="outerDiv">${title}${picture}<div class="dataDisp">
-        ${time}<br>${year}<br>Kategória: ${categories}<br>Rendező: ${directors}<br>Szereplők: ${cast}</div></div>`;
+        ${time}<br>${year}<br>Kategória: ${categories}<br>Rendező: ${directors}</div></div>`;
         displayAll += `${displayCast(data[k].cast)}${divClose}`;
     }
     document.getElementsByClassName('mainContainer')[0].innerHTML = displayAll;
@@ -157,9 +162,9 @@ function formatStringToFilename(str) {
 }
 //---------------
 
-function displayCast(cast){
+function displayCast(cast) {
     let castAll = "";
-    for(let k in cast){
+    for (let k in cast) {
         castAll += `<div class="castDisplay"><img class="actorImg" src="/img/actors/${formatStringToFilename(cast[k].name)}.jpg">`;
         castAll += `<div><p><span class="castName1">${cast[k].name} </span><br> (${cast[k].characterName})</p>`;
         castAll += `<p>Szül.: ${cast[k].birthYear}, ${cast[k].birthCountry}</p></div></div>`;
@@ -190,9 +195,10 @@ function searchForMovie(data) {
                         filteredData.push(data[k]);
                         break;
                     }
-                } }
-                break;
-    case 'cast':
+                }
+            }
+            break;
+        case 'cast':
             for (let k in data) {
                 for (let i in data[k][searchType]) {
                     if (data[k][searchType][i].name.toLowerCase().indexOf(userInput) > -1) { //.name
@@ -211,16 +217,16 @@ function searchForMovie(data) {
 
 function sumMoviesLength(data) {
     let sum = 0;
-for (let k in data) {
-    sum += parseInt(data[k].timeInMinutes);
-}
+    for (let k in data) {
+        sum += parseInt(data[k].timeInMinutes);
+    }
     sum /= 60;
     let avg = sum / data.length;
     sum = sum.toFixed(2);
     avg = avg.toFixed(2);
 
-document.getElementById('sumLength').innerHTML = `Filmek hossza összesen: <strong>${sum}</strong> óra`;
-document.getElementById('avgLength').innerHTML = `Filmek hossza átlagosan: <strong>${avg}</strong> óra`;
+    document.getElementById('sumLength').innerHTML = `Filmek hossza összesen: <strong>${sum}</strong> óra`;
+    document.getElementById('avgLength').innerHTML = `Filmek hossza átlagosan: <strong>${avg}</strong> óra`;
 
 
 }
@@ -230,23 +236,21 @@ document.getElementById('avgLength').innerHTML = `Filmek hossza átlagosan: <str
 function countMoviesOfActors(data) {
     let movieMap = new Map()
     for (let i = 0; i < data.length; i++) {
-        for  (let k in data[i].cast) {
-        if (movieMap.has(data[i].cast[k].name)){   
-            let currentValue = movieMap.get(data[i].cast[k].name);
-            movieMap.set(data[i].cast[k].name, currentValue + 1);
+        for (let k in data[i].cast) {
+            if (movieMap.has(data[i].cast[k].name)) {
+                let currentValue = movieMap.get(data[i].cast[k].name);
+                movieMap.set(data[i].cast[k].name, currentValue + 1);
 
-        } else {     
-            movieMap.set(data[i].cast[k].name, 1);
+            } else {
+                movieMap.set(data[i].cast[k].name, 1);
 
+            }
         }
     }
-    }
     for (let i of movieMap) {
-                document.getElementById('actorList').innerHTML +=
-                (`<p class="actorListPara">${i[0]}: ${i[1]} film <p>`);
-                
-            }
-   
+        document.getElementById('actorList').innerHTML +=
+            (`<p class="actorListPara">${i[0]}: ${i[1]} film <p>`);
+    }
 }
 
 //------------------
@@ -254,21 +258,29 @@ function countMoviesOfActors(data) {
 function countCategories(data) {
     let categoryMap = new Map()
     for (let i = 0; i < data.length; i++) {
-        for  (let k = 0; k < data[i].categories.length; k++) {
-        if (categoryMap.has(data[i].categories[k])){   
-            let currentValue = categoryMap.get(data[i].categories[k]);
-            categoryMap.set(data[i].categories[k], currentValue + 1);
+        for (let k = 0; k < data[i].categories.length; k++) {
+            if (categoryMap.has(data[i].categories[k])) {
+                let currentValue = categoryMap.get(data[i].categories[k]);
+                categoryMap.set(data[i].categories[k], currentValue + 1);
 
-        } else {     
-            categoryMap.set(data[i].categories[k], 1);
+            } else {
+                categoryMap.set(data[i].categories[k], 1);
 
+            }
         }
     }
-    }
     for (let i of categoryMap) {
-                document.getElementById('category').innerHTML +=
-                (`<p>${i[0]}: ${i[1]} db <p>`);
-                
-            }
-   
+        document.getElementById('category').innerHTML +=
+            (`<p>${i[0]}: ${i[1]} db <p>`);
+    }
 }
+
+//-------------------
+
+/*function deleteMovies(data) {
+    for (let k in data) {
+        if (data.premierYear < 1990) {
+            data[k].
+        }
+    }
+}*/

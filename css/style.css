@@ -6,7 +6,6 @@ body {
 
 .searchBar {
     margin: 0 100px;
-    padding: 30px;
 }
 
 input[type=button] {
@@ -19,8 +18,14 @@ input[type=button] {
     font-size: 18px;
     margin-right: 15px;
     padding: 8px;
-
+    transition: 0.3s;
 }
+input[type=button]:hover, a:hover {
+    background: grey;
+    color: white;
+}
+
+
 
 input[type=text], select {
     border: none;
@@ -109,6 +114,7 @@ span.title {
 
 .statistics {
     padding: 20px;
+    color:white;
 }
 .statistics>span {
     color: white;
@@ -133,10 +139,12 @@ a {
     color: teal;
     cursor: pointer;
     background: white;
-    border-radius: 3px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px darkslategrey;
     margin: 50px;
     padding: 10px;
     text-decoration: none;
     width: 100px;
     text-align: center;
+    transition: 0.3s;
 }
