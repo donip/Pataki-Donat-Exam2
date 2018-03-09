@@ -1,13 +1,43 @@
 body {
-    background: lightblue;
+    background: teal;
     margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.searchBar {
+    margin: 0 100px;
+    padding: 30px;
+}
+
+input[type=button] {
+    background: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px darkslategrey;
+    color: teal;
+    font-family: inherit;
+    font-size: 18px;
+    margin-right: 15px;
+    padding: 8px;
+
+}
+
+input[type=text], select {
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    padding: 8px;
+    font-family: inherit;
+    font-size: 18px;
 }
 .mainContainer {
     background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 20px 10px darkslategrey;
     margin: 0 auto;
     padding: 20px;
     position: relative;
-    width: 1500px;
+    width: 1450px;
 }
 
 
@@ -17,8 +47,12 @@ body {
     display: table;
 }
 
+.outerDiv {
+    margin-bottom: 20px;
+}
+
 .movieDiv {
-    border-bottom: 1px solid blue;
+    border-top: 1px solid teal;
     box-sizing: border-box; /*padding és border nem tolja ki a width-et pluszban*/
     float: left;
     width: 33%;
@@ -36,10 +70,31 @@ img {
     border-radius: 5px;
     box-shadow: 2px 2px 10px darkslategrey;
 }
-.movieDiv>p {
+.actorImg {
+    border-radius: 50%;
+    box-shadow: 2px 2px 10px darkslategrey;
+    width: 90px;
+}
+.movieDiv>p:first-child {
 margin-top: 30px;
 }
 span.title {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
 }
+.dataDisp {
+    display: inline-block;
+    margin-left: 16px;
+    vertical-align: top;
+}
+
+.castDisplay div {
+  display: inline-block;
+  margin-left: 20px;
+  vertical-align: 15px;
+}
+.castName1 {
+    font-weight: bold;
+}
+
+

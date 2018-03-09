@@ -4,13 +4,17 @@ function callback(data) {
     let moviesObj = parsedData.movies; //selecting movies object in parsedData
     console.log('Lefutott a callback');
     //function starters here
-    
+
     sortMoviesByTitle(moviesObj);
     editCategoryName(moviesObj);
     displayMoviesAll(moviesObj);
-   
-    
-    
+
+    document.getElementById('search').addEventListener('click', function () {
+        searchForMovie(moviesObj);
+    });
+
+    sumMoviesLength(moviesObj);
+
 
 }
 
@@ -76,15 +80,15 @@ function editCategoryName(data) {
 }*/
 // ---------------------------- 3. Capitalize category names -------------------------------
 function editCategoryName(data) {
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-}
-for (let k in data) {
-    for (let key in data[k].categories){
-        data[k].categories[key] = data[k].categories[key].capitalize();
+    String.prototype.capitalize = function () {
+        return this.charAt(0).toUpperCase() + this.slice(1);
     }
-}
-console.log(data);
+    for (let k in data) {
+        for (let key in data[k].categories) {
+            data[k].categories[key] = data[k].categories[key].capitalize();
+        }
+    }
+    console.log(data);
 
 }
 
@@ -94,14 +98,36 @@ function displayMoviesAll(data) {
     const movieDivOpen = `<div class="movieDiv">`;
     const divClose = "</div>";
     let displayAll = "";
-    let title="";
-    let picture ='';
+    let title = "";
+    let picture = "";
+    let time = "";
+    let year = "";
+    let categories = "";
+    let directors = [];
+    let cast = [];
+
     for (let k in data) {
         picture = `<img src="./img/covers/${formatStringToFilename(data[k].title)}.jpg"></img>`;
-        title = `<p>Cím<br><span class="title">${data[k].title}<span></p>`
-        displayAll += `${movieDivOpen}${title}${picture}${divClose}`;
+        title = `<p>Cím<br><span class="title">${data[k].title}<span></p>`;
+        time = `<span class="time">Hossz: ${data[k].timeInMinutes} perc</span>`;
+        year = `<span class="year">Premier: ${data[k].premierYear}</span>`;
+        categories = pushCategories(data, k, 'categories');
+        directors = pushCategories(data, k, 'directors');
+        //cast = pushCategories(data,k,'cast', 'name');
+
+        displayAll += `${movieDivOpen}<div class="outerDiv">${title}${picture}<div class="dataDisp">
+        ${time}<br>${year}<br>Kategória: ${categories}<br>Rendező: ${directors}<br>Szereplők: ${cast}</div></div>`;
+        displayAll += `${displayCast(data[k].cast)}${divClose}`;
     }
     document.getElementsByClassName('mainContainer')[0].innerHTML = displayAll;
+}
+
+function pushCategories(data, index, key) {
+    let categories = [];
+    for (let i in data[index][key]) {
+        categories.push(data[index][key][i]);
+    }
+    return categories.join(', ');
 }
 
 
@@ -121,9 +147,70 @@ function formatStringToFilename(str) {
         ű: 'u'
     }
     str = str.toLocaleLowerCase()
-            .replace(/[\?:;,\.\+\*\&\']/g, '') //removing special characters
-            .replace(/[áéíóúöőüű]/g, char => hunChars[char])  //function (char) {hunChars[char]}
-            .replace(/[ -]+/g, '-');
+        .replace(/[\?:;,\.\+\*\&\']/g, '') //removing special characters
+        .replace(/[áéíóúöőüű]/g, char => hunChars[char])  //function (char) {hunChars[char]}
+        .replace(/[ -]+/g, '-');
 
     return str;
+}
+//---------------
+
+function displayCast(cast){
+    let castAll = "";
+    for(let k in cast){
+        castAll += `<div class="castDisplay"><img class="actorImg" src="/img/actors/${formatStringToFilename(cast[k].name)}.jpg">`;
+        castAll += `<div><p><span class="castName1">${cast[k].name} </span><br> (${cast[k].characterName})</p>`;
+        castAll += `<p>Szül.: ${cast[k].birthYear}, ${cast[k].birthCountry}</p></div></div>`;
+    }
+    return castAll;
+}
+//----------
+
+//------------------------ SEARCHING -------------------------------
+
+function searchForMovie(data) {
+    let searchType = document.getElementById('userSelect').value.toLowerCase();
+    let userInput = document.getElementById('inputBox').value.toLowerCase();
+
+    let filteredData = [];
+    switch (searchType) {
+        case 'title':
+            for (let k in data) {
+                if (data[k][searchType].toLowerCase().indexOf(userInput) > -1) {
+                    filteredData.push(data[k]);
+                }
+            }
+            break;
+        case 'directors':
+            for (let k in data) {
+                for (let i in data[k][searchType]) {
+                    if (data[k][searchType][i].toLowerCase().indexOf(userInput) > -1) {
+                        filteredData.push(data[k]);
+                        break;
+                    }
+                } }
+                break;
+    case 'cast':
+            for (let k in data) {
+                for (let i in data[k][searchType]) {
+                    if (data[k][searchType][i].name.toLowerCase().indexOf(userInput) > -1) { //.name
+                        filteredData.push(data[k]);
+                        break;
+                    }
+                }
+            }
+            break;
+
+    }
+    displayMoviesAll(filteredData);
+}
+
+// STATISTICS ---------------------------
+
+function sumMoviesLength(data) {
+    let sum = 0;
+for (let k in data) {
+    sum += data[k].timeInMinutes;
+}
+document.getElementById('sumLength').innerHTML = sum;
 }
